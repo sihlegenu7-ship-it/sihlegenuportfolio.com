@@ -68,12 +68,6 @@ nav {
   position: relative;
   overflow: hidden;
 }
-#home::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 70% 50%, rgba(255,107,26,0.08) 0%, transparent 60%);
-  pointer-events: none;
-}
 .hero-text { animation: fadeUp 0.9s ease both; }
 .hero-label {
   font-size: 0.75rem;
@@ -152,16 +146,16 @@ h1 span { color: var(--accent); }
   position: relative;
   margin-left: auto;
   border: 1px solid var(--border);
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.hero-img-frame img {
-  width: 100%; height: 100%; object-fit: cover;
-  display: block;
-  filter: brightness(0.9) contrast(1.05);
-}
-.hero-img-frame::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(10,10,10,0.5) 0%, transparent 50%);
+.hero-img-frame::before {
+  content: "✦";
+  font-size: 4rem;
+  color: var(--accent);
+  opacity: 0.4;
 }
 .hero-badge {
   position: absolute;
@@ -199,22 +193,23 @@ h1 span { color: var(--accent); }
 .about-img-back, .about-img-front {
   position: absolute;
   border-radius: 4px;
-  overflow: hidden;
   border: 1px solid var(--border);
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .about-img-back {
   width: 75%; height: 380px;
   bottom: 0; left: 0;
-  filter: brightness(0.6);
 }
-.about-img-back img, .about-img-front img {
-  width: 100%; height: 100%; object-fit: cover;
-}
+.about-img-back::before { content: "⟡"; font-size: 5rem; color: var(--accent); opacity: 0.3; }
 .about-img-front {
   width: 60%; height: 300px;
   top: 0; right: 0;
   box-shadow: -8px 8px 40px rgba(0,0,0,0.6);
 }
+.about-img-front::before { content: "⚡"; font-size: 4rem; color: var(--accent); opacity: 0.3; }
 .about-accent-box {
   position: absolute;
   bottom: 40px; right: -20px;
@@ -262,16 +257,6 @@ h2 {
   padding: 100px 6%;
   background: var(--surface);
   position: relative;
-}
-#skills::before {
-  content: 'SKILLS';
-  position: absolute; top: 60px; right: 5%;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 8rem;
-  color: rgba(255,107,26,0.04);
-  letter-spacing: 8px;
-  pointer-events: none;
-  user-select: none;
 }
 .skills-grid {
   display: grid;
@@ -326,10 +311,11 @@ h2 {
   height: 100%;
   background: var(--accent);
   border-radius: 2px;
+  width: 0;
   transition: width 1.2s cubic-bezier(.4,0,.2,1);
 }
 
-/* GALLERY / EXPERIENCE */
+/* EXPERIENCE */
 #experience {
   padding: 100px 6%;
 }
@@ -346,18 +332,12 @@ h2 {
   position: relative;
   border: 1px solid var(--border);
   background: var(--card);
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.exp-card img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: brightness(0.75) contrast(1.05);
-  transition: transform .5s ease, filter .4s;
-}
-.exp-card:hover img {
-  transform: scale(1.04);
-  filter: brightness(0.9) contrast(1.05);
-}
+.exp-card.big { grid-row: span 2; min-height: 420px; }
 .exp-card-label {
   position: absolute;
   bottom: 0; left: 0; right: 0;
@@ -372,8 +352,8 @@ h2 {
   transition: opacity .3s, transform .3s;
 }
 .exp-card:hover .exp-card-label { opacity: 1; transform: translateY(0); }
-.exp-card.big { grid-row: span 2; min-height: 420px; }
-.exp-card.sm { min-height: 200px; }
+.exp-card-content { text-align: center; padding: 2rem; }
+.exp-card-content .emoji { font-size: 3rem; margin-bottom: 1rem; display: block; }
 
 /* PROJECTS */
 #projects {
@@ -451,12 +431,6 @@ h2 {
   overflow: hidden;
   text-align: center;
 }
-#contact::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 50% 100%, rgba(255,107,26,0.07) 0%, transparent 70%);
-  pointer-events: none;
-}
 .contact-inner { max-width: 600px; margin: 0 auto; position: relative; }
 .contact-inner h2 { font-size: clamp(3rem, 7vw, 6rem); margin-bottom: 1.2rem; }
 .contact-inner p {
@@ -517,8 +491,6 @@ footer {
 @media (max-width: 768px) {
   #home { grid-template-columns: 1fr; padding-top: 100px; gap: 2rem; }
   .hero-img-wrap { order: -1; }
-  .hero-img-frame { max-width: 100%; height: 300px; aspect-ratio: unset; }
-  #about { grid-template-columns: 1fr; gap: 3rem; }
   .about-img-stack { height: 320px; }
   .exp-grid { grid-template-columns: 1fr; }
   .exp-card.big { grid-row: span 1; min-height: 260px; }
@@ -529,7 +501,6 @@ footer {
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">SG</div>
   <div class="nav-links">
@@ -542,7 +513,6 @@ footer {
   </div>
 </nav>
 
-<!-- HERO -->
 <section id="home">
   <div class="hero-text">
     <div class="hero-label">Available for work</div>
@@ -554,24 +524,17 @@ footer {
     </div>
   </div>
   <div class="hero-img-wrap">
-    <div class="hero-img-frame">
-      <img src="C:\Users\SihleGenu\Persona\image 1.jpeg" alt="Sihle Genu at Go Fourth Learning">
-    </div>
+    <div class="hero-img-frame"></div>
     <div class="hero-badge">
       <div class="hero-badge-inner">TECH<br>STUDENT<br>2026</div>
     </div>
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="about-img-stack reveal">
-    <div class="about-img-back">
-      <img src="C:\Users\SihleGenu\Persona\image 2.jpeg" alt="Classroom session">
-    </div>
-    <div class="about-img-front">
-      <img src="C:\Users\SihleGenu\Persona\image 3.jpeg" alt="AWS presentation">
-    </div>
+    <div class="about-img-back"></div>
+    <div class="about-img-front"></div>
     <div class="about-accent-box">
       AWS<br><small>Cloud + Tech</small>
     </div>
@@ -585,137 +548,71 @@ footer {
   </div>
 </section>
 
-<!-- SKILLS -->
 <section id="skills">
   <div class="reveal">
     <div class="section-label">What I Bring</div>
     <h2>My Skills</h2>
   </div>
   <div class="skills-grid">
-    <div class="skill-card reveal">
-      <div class="skill-icon">⚡</div>
-      <div class="skill-name">HTML5</div>
-      <div class="skill-level">Solid Foundation</div>
-      <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
-    </div>
-    <div class="skill-card reveal">
-      <div class="skill-icon">🎨</div>
-      <div class="skill-name">CSS3</div>
-      <div class="skill-level">Intermediate</div>
-      <div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div>
-    </div>
-    <div class="skill-card reveal">
-      <div class="skill-icon">🔧</div>
-      <div class="skill-name">JavaScript</div>
-      <div class="skill-level">Growing</div>
-      <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
-    </div>
-    <div class="skill-card reveal">
-      <div class="skill-icon">✏️</div>
-      <div class="skill-name">UI/UX Design</div>
-      <div class="skill-level">Intermediate</div>
-      <div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div>
-    </div>
-    <div class="skill-card reveal">
-      <div class="skill-icon">☁️</div>
-      <div class="skill-name">AWS Cloud</div>
-      <div class="skill-level">Learning</div>
-      <div class="skill-bar"><div class="skill-fill" style="width:45%"></div></div>
-    </div>
-    <div class="skill-card reveal">
-      <div class="skill-icon">💡</div>
-      <div class="skill-name">Systems Dev</div>
-      <div class="skill-level">Core Strength</div>
-      <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
-    </div>
+    <div class="skill-card reveal"><div class="skill-icon">⚡</div><div class="skill-name">HTML5</div><div class="skill-level">Solid Foundation</div><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+    <div class="skill-card reveal"><div class="skill-icon">🎨</div><div class="skill-name">CSS3</div><div class="skill-level">Intermediate</div><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div></div>
+    <div class="skill-card reveal"><div class="skill-icon">🔧</div><div class="skill-name">JavaScript</div><div class="skill-level">Growing</div><div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div></div>
+    <div class="skill-card reveal"><div class="skill-icon">✏️</div><div class="skill-name">UI/UX Design</div><div class="skill-level">Intermediate</div><div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div></div>
+    <div class="skill-card reveal"><div class="skill-icon">☁️</div><div class="skill-name">AWS Cloud</div><div class="skill-level">Learning</div><div class="skill-bar"><div class="skill-fill" style="width:45%"></div></div></div>
+    <div class="skill-card reveal"><div class="skill-icon">💡</div><div class="skill-name">Systems Dev</div><div class="skill-level">Core Strength</div><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
   </div>
 </section>
 
-<!-- EXPERIENCE / GALLERY -->
 <section id="experience">
   <div class="reveal">
     <div class="section-label">My Journey</div>
     <h2>Life at<br>Go Fourth</h2>
   </div>
   <div class="exp-grid">
-    <div class="exp-card big reveal">
-      <img src="C:\Users\SihleGenu\Persona\image 4.jpeg" alt="Team at Go Fourth Learning">
-      <div class="exp-card-label">The Squad — Go Fourth Learning</div>
-    </div>
-    <div class="exp-card sm reveal">
-      <img src="C:\Users\SihleGenu\Persona\image 2.jpeg" alt="Class presentation session">
-      <div class="exp-card-label">Presentations &amp; Storytelling</div>
-    </div>
-    <div class="exp-card sm reveal">
-      <img src="C:\Users\SihleGenu\Persona\image 3.jpeg" alt="AWS Amazon FSx lecture">
-      <div class="exp-card-label">Cloud Computing — Amazon FSx</div>
-    </div>
+    <div class="exp-card big reveal"><div class="exp-card-content"><span class="emoji">👥</span><h3 style="font-family:'Bebas Neue';">The Squad</h3><p style="color:var(--muted);">Collaboration & growth</p></div><div class="exp-card-label">The Squad — Go Fourth Learning</div></div>
+    <div class="exp-card sm reveal"><div class="exp-card-content"><span class="emoji">🎤</span><h3 style="font-family:'Bebas Neue';">Presentations</h3></div><div class="exp-card-label">Presentations &amp; Storytelling</div></div>
+    <div class="exp-card sm reveal"><div class="exp-card-content"><span class="emoji">☁️</span><h3 style="font-family:'Bebas Neue';">Cloud Computing</h3></div><div class="exp-card-label">Cloud Computing — Amazon FSx</div></div>
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects">
   <div class="reveal">
     <div class="section-label">What I've Built</div>
     <h2>Projects</h2>
   </div>
   <div class="projects-grid">
-    <div class="proj-card reveal">
-      <div class="proj-number">01</div>
-      <span class="proj-tag">Web Design</span>
-      <h3>Real Deal Studios</h3>
-      <p>Artist management and music promotion website designed to showcase talent, build online presence, and connect artists with audiences.</p>
-      <a href="#" class="proj-link">View Project →</a>
-    </div>
-    <div class="proj-card reveal">
-      <div class="proj-number">02</div>
-      <span class="proj-tag">Portfolio</span>
-      <h3>Personal Portfolio</h3>
-      <p>This very website — a personal portfolio showcasing my skills, journey, and projects as a front-end developer and UI designer.</p>
-      <a href="#" class="proj-link">You're Here →</a>
-    </div>
+    <div class="proj-card reveal"><div class="proj-number">01</div><span class="proj-tag">Web Design</span><h3>Real Deal Studios</h3><p>Artist management and music promotion website designed to showcase talent, build online presence, and connect artists with audiences.</p><a href="#" class="proj-link">View Project →</a></div>
+    <div class="proj-card reveal"><div class="proj-number">02</div><span class="proj-tag">Portfolio</span><h3>Personal Portfolio</h3><p>This very website — a personal portfolio showcasing my skills, journey, and projects as a front-end developer and UI designer.</p><a href="#" class="proj-link">You're Here →</a></div>
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact">
   <div class="contact-inner reveal">
     <div class="section-label">Let's Work Together</div>
     <h2>Get In<br>Touch</h2>
     <p>I'm open to opportunities, collaborations, and conversations. Reach out and let's build something great together.</p>
     <div class="contact-links">
-      <a href="mailto:sihlegenu23@icloud.com" class="contact-link">
-        ✉️ sihlegenu23@icloud.com
-      </a>
-      <a href="https://wa.me/27732723384" target="_blank" class="contact-link">
-        📱 073 272 3384
-      </a>
+      <a href="mailto:sihlegenu23@icloud.com" class="contact-link">✉️ sihlegenu23@icloud.com</a>
+      <a href="https://wa.me/27732723384" target="_blank" class="contact-link">📱 073 272 3384</a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <span class="nav-logo" style="font-family:'Bebas Neue',sans-serif;color:var(--accent);font-size:1.2rem;letter-spacing:2px;">Sihle Genu</span>
   <span>© 2026 — Front-End Developer · UI Designer</span>
 </footer>
 
 <script>
-// Scroll reveal
 const reveals = document.querySelectorAll('.reveal');
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
 }, { threshold: 0.12 });
 reveals.forEach(r => obs.observe(r));
 
-// Animate skill bars on scroll
 const bars = document.querySelectorAll('.skill-fill');
 const barObs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.style.width = e.target.style.width;
-    }
-  });
+  entries.forEach(e => { if (e.isIntersecting) { e.target.style.width = e.target.style.width; } });
 }, { threshold: 0.3 });
 bars.forEach(b => {
   const target = b.style.width;
